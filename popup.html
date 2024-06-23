@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bookmarks Exporter</title>
+  <style>
+    body {
+      border-radius: 20px;
+      width: 400px;
+      margin: 0;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-family: Arial, sans-serif;
+    }
+    #startContainer, #mainContainer {
+      text-align: center;
+      padding: 10px;
+    }
+    #mainContainer {
+      display: none;
+    }
+    #bookmarkTree {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 50px;
+    }
+    ul { list-style-type: none; padding-left: 20px;  text-align: left;}
+    li { margin: 5px 0; }
+    .folder { cursor: pointer; margin-right: 5px; }
+    .hidden { display: none; }
+    .icon { width: 16px; height: 16px; margin-right: 5px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-radius: 9999px;
+      border-width: 0;
+      padding: 1rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      outline: none;
+      background-color: #38a169;
+      color: white;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #2f855a;
+    }
+    .btn:active {
+      background-color: #2f855a;
+      color: #e6fffa;
+    }
+    .btn:focus-visible {
+      outline: 2px solid #38a169;
+      outline-offset: 2px;
+    }
+    #exportBtnContainer {
+      text-align: center;
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      background: #fff;
+      padding: 10px 0;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="startContainer">
+    <button id="startBtn" class="btn">Export Bookmarks to JSON</button>
+  </div>
+  <div id="mainContainer">
+    <div id="bookmarkTree"></div>
+    <div id="exportBtnContainer">
+      <button id="exportBtn"  class="btn">Export Selected Bookmarks to JSON</button>
+    </div>
+  </div>
+  <script src="bookmarksToJSON.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
