@@ -12,7 +12,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
-        className={cn("bg-primary text-white rounded-full", className)}
+        className={cn("bg-primary text-white rounded-full disabled:bg-primary/80 disabled:cursor-not-allowed", className)}
         ref={ref}
         {...props}
       />

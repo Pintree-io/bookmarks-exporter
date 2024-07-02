@@ -1,11 +1,11 @@
-import { Icon, Logo } from "./components/icons"
-
-import "./style.css"
-
+import { Icon, Logo } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { getCopyYear } from "@/utils"
+import { useNavigate } from "react-router-dom"
 
-function IndexPopup() {
+function HomePopup() {
+  const navigate = useNavigate()
+
   return (
     <div className="px-[42px] py-[24px] w-[300px] flex flex-col items-center justify-center">
       <Logo className="w-20 h-20" />
@@ -19,7 +19,9 @@ function IndexPopup() {
       </div>
 
       <div className="w-full space-y-5">
-        <Button className="text-[16px] font-light w-full py-4">
+        <Button
+          className="text-[16px] font-light w-full py-4"
+          onClick={() => navigate("/bookmark")}>
           Export Bookmarks
         </Button>
         <footer className="text-zinc-600 flex items-center justify-center">
@@ -46,4 +48,4 @@ function IndexPopup() {
   )
 }
 
-export default IndexPopup
+export default HomePopup
