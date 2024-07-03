@@ -2,7 +2,7 @@ import { BookmarkTree } from "@/components/bookmark-tree"
 import { Icon, Loading } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { AppContext } from "@/context/app-context"
-import { arrayChange } from "@/utils"
+import { recursiveChange } from "@/utils"
 import { getChromeBookmarks } from "@/utils/bookmark/chrome"
 import type { TreeProps } from "antd"
 import { useContext, useEffect, useState } from "react"
@@ -22,11 +22,9 @@ function BookmarkPopup() {
   const getBookmarks = async () => {
     try {
       const result = await getChromeBookmarks()
-      const bookmarks = arrayChange(
+      const bookmarks = recursiveChange(
         result[0].children[0].children,
-        (item: any, _index: number) => {
-          return { ...item, isLeaf: !item?.children }
-        }
+        (item: any, _index: number) => ({ ...item, isLeaf: !item?.children })
       )
       setData(bookmarks)
       console.log(bookmarks)

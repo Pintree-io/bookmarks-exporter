@@ -12,9 +12,9 @@ export const getCopyYear = () => {
  * @returns data - The new array after the change
  * @example
  * // Basic Use
- * arrayChange([...], (item:T, index:number) => ({ ...item, test:'test' }))
+ * recursiveChange([...], (item:T, index:number) => ({ ...item, test:'test' }))
  */
-export const arrayChange = <T>(
+export const recursiveChange = <T>(
   target: T[],
   transform: (item: T, index: number) => T,
   childName: string = 'children',
@@ -25,7 +25,7 @@ export const arrayChange = <T>(
 
     // Check if a subarray exists and recurse
     if (newItem[childName] && Array.isArray(newItem[childName])) {
-      newItem[childName] = arrayChange(newItem[childName], transform, childName);
+      newItem[childName] = recursiveChange(newItem[childName], transform, childName);
     }
 
     return newItem;
