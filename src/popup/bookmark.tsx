@@ -63,7 +63,7 @@ function BookmarkPopup() {
         </div>
       )}
 
-      <div className="px-6 mt-4">
+      <div className="px-6 mt-4 py-2">
         <Button
           disabled={loading}
           className="text-[16px] font-light w-full py-4 flex items-center justify-center"

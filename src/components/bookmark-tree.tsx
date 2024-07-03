@@ -40,9 +40,9 @@ export const BookmarkTree: React.FC<BookmarkTreeProps> = ({
             <div className="flex items-center justify-between">
               <span className="w-3.5 h-3.5 mx-1">
                 {!item.isLeaf ? (
-                  <Folder className="w-3.5 h-3.5" />
+                  <Folder className="w-3.5 h-3.5 fill-black" />
                 ) : (
-                  <Bookmark className="w-3.5 h-3.5" />
+                  <Bookmark className="w-3.5 h-3.5 fill-black" />
                 )}
               </span>
               <span className="w-40 whitespace-nowrap overflow-hidden overflow-ellipsis">

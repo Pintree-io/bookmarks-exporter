@@ -1,9 +1,8 @@
+// import { Logo } from "@/components/icons"
 import cssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 
-export const config: PlasmoCSConfig = {
-  matches: ["https://pintree.io/*"]
-}
+export const config: PlasmoCSConfig = {}
 
 export const getStyle = () => {
   const style = document.createElement("style")
@@ -11,8 +10,12 @@ export const getStyle = () => {
   return style
 }
 
-const PlasmoOverlay = () => {
-  return <div className="z-50 flex fixed top-32 right-2"></div>
+const AppOverlay = () => {
+  return (
+    <div className="z-50 flex fixed top-32 right-4">
+      {/* <Logo className="w-10 h-10 border rounded-full" /> */}
+    </div>
+  )
 }
 
-export default PlasmoOverlay
+export default AppOverlay
