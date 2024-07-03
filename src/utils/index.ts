@@ -31,3 +31,44 @@ export const recursiveChange = <T>(
     return newItem;
   });
 };
+
+interface TreeNode {
+  id: string;
+  [key: string]: any;
+}
+
+/**
+ * Recursively search for an object in an array of objects
+ * @param {Array} sourceArray Source array - Required
+ * @param {Function} predicate Callback function, find the target object - Required
+ * @param {String} childKey The key name of the child array, the default is 'children' - Not required
+ * @returns data - The target object
+ * @example
+ * // Basic Use
+ * recursiveFind([...], (item:T, index:number) => item.id === 1)
+ */
+export const recursiveFind = <T extends TreeNode>(
+  sourceArray: T[],
+  predicate: (item: T, index: number) => boolean,
+  childKey: string = 'children',
+): T[] => {
+  const result: T[] = [];
+
+  sourceArray.forEach((item, index) => {
+    if (predicate(item, index)) {
+      const newItem = { ...item };
+      if (item[childKey] && Array.isArray(item[childKey])) {
+        (newItem[childKey] as T[]) = recursiveFind(item[childKey] as T[], predicate, childKey);
+      }
+      result.push(newItem);
+    } else if (item[childKey] && Array.isArray(item[childKey])) {
+      const children = recursiveFind(item[childKey] as T[], predicate, childKey);
+      if (children.length > 0) {
+        const newItem = { ...item, [childKey]: children };
+        result.push(newItem);
+      }
+    }
+  });
+
+  return result;
+};

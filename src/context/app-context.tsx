@@ -1,6 +1,7 @@
-import type { TreeDataNode } from "antd"
 import React, { createContext, useState } from "react"
 import type { ReactNode } from "react"
+
+type TreeDataNode = chrome.bookmarks.BookmarkTreeNode
 
 interface AppContextProps {
   treeData: TreeDataNode[]

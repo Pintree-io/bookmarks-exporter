@@ -2,7 +2,7 @@ import { BookmarkTree } from "@/components/bookmark-tree"
 import { Icon, Loading } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { AppContext } from "@/context/app-context"
-import { recursiveChange } from "@/utils"
+import { recursiveChange, recursiveFind } from "@/utils"
 import { getChromeBookmarks } from "@/utils/bookmark/chrome"
 import type { TreeProps } from "antd"
 import { useContext, useEffect, useState } from "react"
@@ -14,9 +14,10 @@ function BookmarkPopup() {
 
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
 
-  const onSelect: TreeProps["onSelect"] = (selectedKeys, info) => {
-    console.log("selected", selectedKeys, info)
+  const onCheck: TreeProps["onCheck"] = (selectedKeys: string[], _info) => {
+    setCheckedKeys(selectedKeys)
   }
 
   const getBookmarks = async () => {
@@ -27,7 +28,6 @@ function BookmarkPopup() {
         (item: any, _index: number) => ({ ...item, isLeaf: !item?.children })
       )
       setData(bookmarks)
-      console.log(bookmarks)
     } catch (error) {
       console.error(error)
     } finally {
@@ -36,7 +36,11 @@ function BookmarkPopup() {
   }
 
   const handleExportBookmarks = () => {
-    setTreeData(data)
+    const result = recursiveFind<chrome.bookmarks.BookmarkTreeNode>(
+      data,
+      (item, _index: number) => checkedKeys.includes(item.id)
+    )
+    setTreeData(result)
     navigate("/export")
   }
 
@@ -56,9 +60,10 @@ function BookmarkPopup() {
         <div className="h-72">
           <BookmarkTree
             className="!max-w-full"
+            checkedKeys={checkedKeys}
             height={287}
             treeData={data}
-            onSelect={onSelect}
+            onCheck={onCheck}
           />
         </div>
       )}

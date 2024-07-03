@@ -5,13 +5,13 @@ export const getChromeBookmarks = async () => {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError)
         } else {
-          resolve(bookmarks);
+          resolve(bookmarks)
         }
       });
     });
-    return bookmarks;
+    return bookmarks
   } catch (error) {
-    console.error('Error fetching bookmarks:', error);
-    throw error;
+    console.error('Error fetching bookmarks:', error)
+    throw error
   }
 };
