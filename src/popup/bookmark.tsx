@@ -2,8 +2,9 @@ import { BookmarkTree } from "@/components/bookmark-tree"
 import { Icon, Loading } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { AppContext } from "@/context/app-context"
-import { recursiveChange, recursiveFind } from "@/utils"
+import type { ChangedTreeData, TreeDataNode } from "@/types/bookmarks"
 import { getChromeBookmarks } from "@/utils/bookmark/chrome"
+import { recursiveChange, recursiveFind } from "@/utils/tree"
 import type { TreeProps } from "antd"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -23,9 +24,12 @@ function BookmarkPopup() {
   const getBookmarks = async () => {
     try {
       const result = await getChromeBookmarks()
-      const bookmarks = recursiveChange(
+      const bookmarks = await recursiveChange<TreeDataNode, ChangedTreeData>(
         result[0].children[0].children,
-        (item: any, _index: number) => ({ ...item, isLeaf: !item?.children })
+        async (item, _index: number) => ({
+          ...item,
+          type: item?.children ? "folder" : "link"
+        })
       )
       setData(bookmarks)
     } catch (error) {
@@ -36,9 +40,8 @@ function BookmarkPopup() {
   }
 
   const handleExportBookmarks = () => {
-    const result = recursiveFind<chrome.bookmarks.BookmarkTreeNode>(
-      data,
-      (item, _index: number) => checkedKeys.includes(item.id)
+    const result = recursiveFind<TreeDataNode>(data, (item, _index: number) =>
+      checkedKeys.includes(item.id)
     )
     setTreeData(result)
     navigate("/export")
@@ -70,7 +73,7 @@ function BookmarkPopup() {
 
       <div className="px-6 mt-4 py-2">
         <Button
-          disabled={loading}
+          disabled={loading || !checkedKeys.length}
           className="text-[16px] font-light w-full py-4 flex items-center justify-center"
           onClick={() => handleExportBookmarks()}>
           Continue

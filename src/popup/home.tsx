@@ -7,7 +7,7 @@ function HomePopup() {
   const navigate = useNavigate()
 
   return (
-    <div className="px-[42px] py-[24px] w-[300px] flex flex-col items-center justify-center">
+    <div className="px-10 py-6 w-[300px] flex flex-col items-center justify-center">
       <Logo className="w-20 h-20" />
       <div className="space-y-4 mt-6 mb-10">
         <h1 className="text-xl font-medium text-center">

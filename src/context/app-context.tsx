@@ -1,11 +1,10 @@
-import React, { createContext, useState } from "react"
+import type { TreeDataNode } from "@/types/bookmarks"
 import type { ReactNode } from "react"
-
-type TreeDataNode = chrome.bookmarks.BookmarkTreeNode
+import React, { createContext, useState } from "react"
 
 interface AppContextProps {
   treeData: TreeDataNode[]
-  setTreeData: React.Dispatch<React.SetStateAction<TreeDataNode[]>>
+  setTreeData: React.Dispatch<React.SetStateAction<any[]>>
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined)

@@ -1,74 +1,65 @@
+import { fetchWrapper } from "@/utils/wrapper"
+
 export const getCopyYear = () => {
   const currentYear = new Date().getFullYear()
   const year = currentYear === 2024 ? "2024" : `2024 - ${currentYear}`
   return year
 }
 
-/**
- * Recursive change of object array
- * @param {Array} target Source array - Required
- * @param {Function} transform Callback function, change the data structure - Required
- * @param {String} childName The key name of the child array, the default is children - Not required
- * @returns data - The new array after the change
- * @example
- * // Basic Use
- * recursiveChange([...], (item:T, index:number) => ({ ...item, test:'test' }))
- */
-export const recursiveChange = <T>(
-  target: T[],
-  transform: (item: T, index: number) => T,
-  childName: string = 'children',
-): T[] => {
-  return target.map((item, index) => {
-    // Create new objects to avoid modifying the original objects
-    const newItem = { ...item, ...transform(item, index) };
+// Clearbit API 获取 logo URL
+export const getClearbitLogoUrl = async (url: string) => {
+  const parsedUrl = new URL(url);
+  const domain = parsedUrl.hostname;
+  return `https://logo.clearbit.com/${domain}`;
+}
 
-    // Check if a subarray exists and recurse
-    if (newItem[childName] && Array.isArray(newItem[childName])) {
-      newItem[childName] = recursiveChange(newItem[childName], transform, childName);
+// Google S2 Converter 获取 favicon URL
+export const getGoogleLogoUrl = async (url: string) => {
+  const parsedUrl = new URL(url);
+  return `https://www.google.com/s2/favicons?sz=64&domain_url=${parsedUrl}`;
+}
+
+// 获取网站的 logo 或 favicon，并进行容错处理
+export const getLogoUrl = async (url: string) => {
+  try {
+    // 尝试使用 Clearbit 获取 logo
+    const clearbitLogoUrl = await getClearbitLogoUrl(url);
+    await fetchWrapper(clearbitLogoUrl); // 检查是否能成功获取
+    return clearbitLogoUrl;
+  } catch (error) {
+    console.warn(`Clearbit logo not found for ${url}, trying Google Favicon.`);
+
+    try {
+      // 尝试使用 Google S2 Converter 获取 favicon
+      const googleFaviconUrl = await getGoogleLogoUrl(url);
+      await fetchWrapper(googleFaviconUrl); // 检查是否能成功获取
+      return googleFaviconUrl;
+    } catch (error) {
+      console.warn(`Google favicon not found for ${url}, using default favicon.`);
+
+      // 返回默认的 favicon
+      return undefined;
     }
+  }
+}
 
-    return newItem;
-  });
-};
-
-interface TreeNode {
-  id: string;
-  [key: string]: any;
+// 将 Logo 图标转换为 base64 编码
+export const logoToBase64 = async (logoUrl: string) => {
+  try {
+    const response = await fetchWrapper(logoUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
+    const mimeType = response.headers.get('content-type')!;
+    return `data:${mimeType};base64,${base64}`;
+  } catch (error) {
+    throw new Error(`Failed to convert logo to base64: ${error}`);
+  }
 }
 
 /**
- * Recursively search for an object in an array of objects
- * @param {Array} sourceArray Source array - Required
- * @param {Function} predicate Callback function, find the target object - Required
- * @param {String} childKey The key name of the child array, the default is 'children' - Not required
- * @returns data - The target object
- * @example
- * // Basic Use
- * recursiveFind([...], (item:T, index:number) => item.id === 1)
+ * @description: Delayed execution
+ * @param {number} time delay
+ * @return Promise
  */
-export const recursiveFind = <T extends TreeNode>(
-  sourceArray: T[],
-  predicate: (item: T, index: number) => boolean,
-  childKey: string = 'children',
-): T[] => {
-  const result: T[] = [];
-
-  sourceArray.forEach((item, index) => {
-    if (predicate(item, index)) {
-      const newItem = { ...item };
-      if (item[childKey] && Array.isArray(item[childKey])) {
-        (newItem[childKey] as T[]) = recursiveFind(item[childKey] as T[], predicate, childKey);
-      }
-      result.push(newItem);
-    } else if (item[childKey] && Array.isArray(item[childKey])) {
-      const children = recursiveFind(item[childKey] as T[], predicate, childKey);
-      if (children.length > 0) {
-        const newItem = { ...item, [childKey]: children };
-        result.push(newItem);
-      }
-    }
-  });
-
-  return result;
-};
+export const delay = (time: number = 500): Promise<TimerHandler> =>
+  new Promise(resolve => setTimeout(resolve, time));

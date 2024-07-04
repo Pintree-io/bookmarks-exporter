@@ -1,11 +1,12 @@
 import { Bookmark, Folder } from "@/components/icons"
 import { cn } from "@/lib/utils"
-import type { TreeProps } from "antd"
+import type { TreeProps as AntdTreeProps } from "antd"
 import { ConfigProvider, Tooltip, Tree } from "antd"
 import * as React from "react"
 
-export interface BookmarkTreeProps extends TreeProps {
+type BookmarkTreeProps = AntdTreeProps & {
   className?: string
+  treeData: any[]
 }
 
 export const BookmarkTree: React.FC<BookmarkTreeProps> = ({
@@ -39,7 +40,7 @@ export const BookmarkTree: React.FC<BookmarkTreeProps> = ({
             title={!item?.children ? item.title : undefined}>
             <div className="flex items-center justify-between">
               <span className="w-3.5 h-3.5 mx-1">
-                {!item.isLeaf ? (
+                {item.type === "folder" ? (
                   <Folder className="w-3.5 h-3.5" />
                 ) : (
                   <Bookmark className="w-3.5 h-3.5" />

@@ -9,11 +9,7 @@ module.exports = {
         secondary: {
           100: "#F5FAF8",
         },
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ['Georgia', 'serif'],
-      },
+      }
     },
   },
 }
