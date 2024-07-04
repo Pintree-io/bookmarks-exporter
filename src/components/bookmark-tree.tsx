@@ -35,29 +35,29 @@ export const BookmarkTree: React.FC<BookmarkTreeProps> = ({
         blockNode
         {...props}
         titleRender={(item: any) => (
-          <MemoTooltip
-            className="flex items-center justify-between"
-            title={!item?.children ? item.title : undefined}>
-            <div className="flex items-center justify-between">
-              <span className="w-3.5 h-3.5 mx-1">
-                {item.type === "folder" ? (
-                  <Folder className="w-3.5 h-3.5" />
-                ) : (
-                  <Bookmark className="w-3.5 h-3.5" />
-                )}
-              </span>
-              <span className="w-40 whitespace-nowrap overflow-hidden overflow-ellipsis">
-                {item.title}
-              </span>
-            </div>
-
-            {item?.children ? (
-              <div className="px-1.5 rounded-md border text-xs text-black/50">
-                {item.children.length}
+          <MemoTooltip title={!item?.children ? item.title : undefined}>
+            <div className="flex-1 flex items-center">
+              <div className="flex items-center flex-1 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                <div className="w-4 h-4 m-1">
+                  {item.type === "folder" ? (
+                    <Folder className="w-4 h-4" />
+                  ) : (
+                    <Bookmark className="w-4 h-4" />
+                  )}
+                </div>
+                <div className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                  {item.title}
+                </div>
               </div>
-            ) : (
-              ""
-            )}
+
+              {item?.children ? (
+                <div className="px-1.5 rounded-md border text-xs text-black/50">
+                  {item.children.length}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </MemoTooltip>
         )}
       />

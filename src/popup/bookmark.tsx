@@ -60,9 +60,9 @@ function BookmarkPopup() {
           <div className="text-xl">Loading...</div>
         </div>
       ) : (
-        <div className="h-72">
+        <div className="h-72 w-full">
           <BookmarkTree
-            className="!max-w-full"
+            className="w-full"
             checkedKeys={checkedKeys}
             height={287}
             treeData={data}
