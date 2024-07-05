@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress"
 import { AppContext } from "@/context/app-context"
 import type { ChangedTreeData } from "@/types/bookmarks"
 import { delay, getClearbitLogoUrl } from "@/utils"
-import { flatten, recursiveChange } from "@/utils/tree"
+import { recursiveChange } from "@/utils/tree"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -20,22 +20,12 @@ function ExportPopup() {
   const { treeData, setTreeData } = useContext(AppContext)
   const [progress, setProgress] = useState(0)
 
-  const updateProgress = () => {
-    const total = flatten(treeData).length
-    setProgress((prev) => {
-      const next = prev + 1
-      return Math.floor((next / total) * 100)
-    })
-  }
-
   const exportData = async () => {
     // 处理数据
     const bookmarks = await recursiveChange<
       ChangedTreeData,
       ExportTreeDataProps
     >(treeData as ChangedTreeData[], async (item, _index: number) => {
-      updateProgress()
-
       if (item.type === "link") {
         const logoUrl = await getClearbitLogoUrl(item.url)
         return {
@@ -59,10 +49,12 @@ function ExportPopup() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      setProgress(10)
-      delay()
+      setProgress(30)
+      await delay()
       await exportData()
-      delay()
+      await delay()
+      setProgress(60)
+      await delay()
       setProgress(100)
     }, 500)
 
