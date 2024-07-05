@@ -1,7 +1,7 @@
 {
-  "name": "pintree",
-  "displayName": "Pintree",
-  "version": "0.0.1",
+  "name": "pintree-bookmarks-exporter",
+  "displayName": "Pintree Bookmarks Exporter",
+  "version": "1.0.0",
   "description": "Effortlessly export your Chrome bookmarks to organized JSON files.",
   "author": "Pintree. <viggo.zw@gmail.com>",
   "homepage": "https://pintree.io",

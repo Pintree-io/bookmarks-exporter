@@ -11,7 +11,7 @@ export function MainFooter() {
         </a>
       </span>
       <a
-        href="htttps://github.com/pintreeio"
+        href="https://github.com/Pintree-io/pintree"
         className="flex items-center"
         target="_blank"
         rel="noreferrer">

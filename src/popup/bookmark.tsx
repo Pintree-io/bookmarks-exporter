@@ -31,6 +31,8 @@ function BookmarkPopup() {
           type: item?.children ? "folder" : "link"
         })
       )
+      console.log(bookmarks)
+
       setData(bookmarks)
     } catch (error) {
       console.error(error)

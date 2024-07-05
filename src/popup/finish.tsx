@@ -16,7 +16,7 @@ function FinishPopup() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = "bookmarks.json"
+    a.download = "pintree.json"
     a.click()
     URL.revokeObjectURL(url)
   }

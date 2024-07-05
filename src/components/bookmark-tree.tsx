@@ -42,7 +42,9 @@ export const BookmarkTree: React.FC<BookmarkTreeProps> = ({
                   {item.type === "folder" ? (
                     <Folder className="w-4 h-4" />
                   ) : (
-                    <Bookmark className="w-4 h-4" />
+                    !item.url.includes("separator.mayastudios.com") && (
+                      <Bookmark className="w-4 h-4" />
+                    )
                   )}
                 </div>
                 <div className="whitespace-nowrap overflow-hidden overflow-ellipsis">
