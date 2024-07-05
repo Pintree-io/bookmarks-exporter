@@ -1,9 +1,8 @@
-import { Finish, Icon, Logo } from "@/components/icons"
+import { Finish, Icon } from "@/components/icons"
 import { MainFooter } from "@/components/main-footer"
 import { Button } from "@/components/ui/button"
 import { AppContext } from "@/context/app-context"
-import { getCopyYear } from "@/utils"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
 function FinishPopup() {

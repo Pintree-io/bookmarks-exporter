@@ -25,7 +25,7 @@ function BookmarkPopup() {
     try {
       const result = await getChromeBookmarks()
       const bookmarks = await recursiveChange<TreeDataNode, ChangedTreeData>(
-        result[0].children[0].children,
+        result[0].children,
         async (item, _index: number) => ({
           ...item,
           type: item?.children ? "folder" : "link"
