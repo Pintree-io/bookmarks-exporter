@@ -24,6 +24,11 @@ function HomePopup() {
           onClick={() => navigate("/bookmark")}>
           Export Bookmarks
         </Button>
+        <Button
+          className="text-[16px] font-light w-full py-4"
+          onClick={() => navigate("/git-setting")}>
+          Configure Repo
+        </Button>
         <MainFooter />
       </div>
     </div>
